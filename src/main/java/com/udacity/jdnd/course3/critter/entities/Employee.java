@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name="Employee")
 public class Employee extends User {
+
     //@ElementCollection which allows us to establish a one-to-many relationship with basic objects
     // like Java primitives, wrapper, Date, String,Enums in this  case regarding EmployeeSkill and DayOfWeek
     @ElementCollection

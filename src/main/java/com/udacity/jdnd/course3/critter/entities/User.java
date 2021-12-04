@@ -5,7 +5,7 @@ import org.hibernate.annotations.Nationalized;
 import javax.persistence.*;
 
 @Entity
-@Table(name="User")
+@Table(name="Person")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id

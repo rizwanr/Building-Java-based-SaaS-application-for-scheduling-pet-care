@@ -3,7 +3,7 @@ package com.udacity.jdnd.course3.critter.entities;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="Pet")
@@ -16,7 +16,7 @@ public class Pet {
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Customer.class) //many pets can belong to 1 customer
     @JoinColumn(name="customer_id")
     private Customer customer;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String notes;
 
     public PetType getType() {
@@ -35,11 +35,11 @@ public class Pet {
         this.customer = customer;
     }
 
-    public LocalDateTime getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDateTime birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
