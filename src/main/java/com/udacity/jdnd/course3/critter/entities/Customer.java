@@ -1,12 +1,22 @@
 package com.udacity.jdnd.course3.critter.entities;
 
+import org.hibernate.annotations.Nationalized;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
 @Table(name="Customer")
-public class Customer extends User {
+public class Customer  {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Nationalized
+    @Column(name = "fullName", length = 50)
+    private String name;
+
 
     @Pattern(regexp="(^$|[0-9]{10})")
     private String phoneNumber;
@@ -44,5 +54,21 @@ public class Customer extends User {
 
     public void setPet(List<Pet> pet) {
         this.pet = pet;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
