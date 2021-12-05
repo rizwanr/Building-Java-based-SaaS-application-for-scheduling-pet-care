@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class UserController {
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        Long createdCustomerId = customerService.saveCustomer(convertCustomerDtoToEntity(customerDTO));
+        Long createdCustomerId = customerService.saveCustomer(convertCustomerDtoToCustomer(customerDTO));
 
         customerDTO.setId(createdCustomerId);
         return customerDTO;
@@ -38,7 +39,21 @@ public class UserController {
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        throw new UnsupportedOperationException();
+
+        List<Customer> listOfCustomers =customerService.getListOfCustomers();
+        List<CustomerDTO> customerDto= new ArrayList<>();
+        for (Customer customer: listOfCustomers
+             ) {
+            customerDto.add(convertCustomerToCustomerDTO(customer));
+        }
+        return customerDto;
+
+
+//        List<Customer> customerList = customerService.getListOfCustomers();
+//        List<CustomerDTO> customerDTO = customerList.stream()
+//                .map(UserController::convertCustomerToCustomerDTO)
+//                .collect(Collectors.toList());
+        //        return customerDto;
     }
 
     @GetMapping("/customer/pet/{petId}")
@@ -68,14 +83,24 @@ public class UserController {
 
 
     //create two conversion methods that know how to exchange between Customer and CustomerDTO
-    private static CustomerDTO convertEntityToCustomerDTO(Customer customer){
+    //extract the pet ids from the pets present in the customer and include them in the customerDTO,
+    private static CustomerDTO convertCustomerToCustomerDTO(Customer customer){
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
+        List<Long> petIds = new ArrayList<>();
+        try {
+            customer.getPet().forEach(pet -> {
+                petIds.add(pet.getId());
+            });
+            customerDTO.setPetIds(petIds);
+        }catch (Exception e){
+            System.out.println("customer "+customer.getId() + " does not have any pet");
+        }
         return customerDTO;
 
     }
 
-    private static Customer convertCustomerDtoToEntity(CustomerDTO customerDTO){
+    private static Customer convertCustomerDtoToCustomer(CustomerDTO customerDTO){
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
         return customer;

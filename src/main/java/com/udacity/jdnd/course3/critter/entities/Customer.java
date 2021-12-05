@@ -28,7 +28,7 @@ public class Customer  {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Pet.class, cascade = CascadeType.ALL)
     private List<Pet> pet;
 
-    public Customer( @Pattern(regexp = "(^$|[0-9]{10})") String phoneNumber, String notes) {
+    public Customer( @Pattern(regexp = "(^$|[0-9]{10})") String phoneNumber) {
         this.phoneNumber = phoneNumber;
 
     }
