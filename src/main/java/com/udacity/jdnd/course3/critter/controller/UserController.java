@@ -1,7 +1,9 @@
 package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.entities.Customer;
+import com.udacity.jdnd.course3.critter.entities.Employee;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
+import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
@@ -27,6 +29,9 @@ public class UserController {
 
     @Autowired
     public CustomerService customerService;
+
+    @Autowired
+    public EmployeeService employeeService;
 
     @Autowired
     public PetService petService;
@@ -68,7 +73,9 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Long createdEmployeeId = employeeService.saveEmployee(convertEmpoyeeDtoToEmployee(employeeDTO));
+        employeeDTO.setId(createdEmployeeId);
+        return employeeDTO;
     }
 
     @PostMapping("/employee/{employeeId}")
@@ -114,6 +121,12 @@ public class UserController {
 
     }
 
+
+    public  static Employee convertEmpoyeeDtoToEmployee(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+         BeanUtils.copyProperties(employeeDTO, employee);
+         return employee;
+    }
 
 
 
