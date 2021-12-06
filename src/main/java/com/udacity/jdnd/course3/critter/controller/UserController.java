@@ -2,6 +2,7 @@ package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
+import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeRequestDTO;
@@ -26,6 +27,9 @@ public class UserController {
 
     @Autowired
     public CustomerService customerService;
+
+    @Autowired
+    public PetService petService;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
@@ -58,7 +62,8 @@ public class UserController {
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+        return convertCustomerToCustomerDTO(customerService.getCustomerByPetId(petId));
+
     }
 
     @PostMapping("/employee")
@@ -90,11 +95,13 @@ public class UserController {
         List<Long> petIds = new ArrayList<>();
         try {
             customer.getPet().forEach(pet -> {
-                petIds.add(pet.getId());
+                petIds.add(pet.getPetId());
+                customerDTO.setPetIds(petIds);
+                customerDTO.setNotes(pet.getNotes());
             });
-            customerDTO.setPetIds(petIds);
+
         }catch (Exception e){
-            System.out.println("customer "+customer.getId() + " does not have any pet");
+            System.out.println("customer "+customer.getCustomerId() + " does not have any pet");
         }
         return customerDTO;
 
@@ -106,6 +113,9 @@ public class UserController {
         return customer;
 
     }
+
+
+
 
 
 }

@@ -3,15 +3,16 @@ package com.udacity.jdnd.course3.critter.entities;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="Schedule")
-public class Schedule {
+public class Schedule  implements Serializable  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate date;

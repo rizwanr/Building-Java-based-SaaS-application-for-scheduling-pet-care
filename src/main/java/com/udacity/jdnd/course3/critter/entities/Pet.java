@@ -3,16 +3,20 @@ package com.udacity.jdnd.course3.critter.entities;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name="Pet")
-public class Pet {
+public class Pet implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long petId;
+    @Column(length = 50)
+    private String name;
     private PetType type;
+
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Customer.class) //many pets can belong to 1 customer
     @JoinColumn(name="customer_id")
@@ -20,12 +24,12 @@ public class Pet {
     private LocalDate birthDate;
     private String notes;
 
-    public Long getId() {
-        return id;
+    public Long getPetId() {
+        return petId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPetId(Long petId) {
+        this.petId = petId;
     }
 
     public PetType getType() {
@@ -60,6 +64,11 @@ public class Pet {
         this.notes = notes;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-
+    public String getName() {
+        return name;
+    }
 }

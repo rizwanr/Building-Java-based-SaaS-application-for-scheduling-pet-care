@@ -4,15 +4,16 @@ import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name="Customer")
-public class Customer  {
+public class Customer implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long customerId;
     @Nationalized
     @Column(name = "fullName", length = 50)
     private String name;
@@ -56,12 +57,12 @@ public class Customer  {
         this.pet = pet;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public String getName() {

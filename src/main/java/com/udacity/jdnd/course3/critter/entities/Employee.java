@@ -4,15 +4,16 @@ import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.Set;
 
 @Entity
 @Table(name="Employee")
-public class Employee{
+public class Employee implements Serializable  {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Nationalized
     @Column(name = "fullName", length = 50)
