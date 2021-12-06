@@ -80,7 +80,7 @@ public class UserController {
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        return convertEmpoyeeToEmployeeDTO(employeeService.getEmployeeById(employeeId));
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -126,6 +126,12 @@ public class UserController {
         Employee employee = new Employee();
          BeanUtils.copyProperties(employeeDTO, employee);
          return employee;
+    }
+
+    public  static EmployeeDTO convertEmpoyeeToEmployeeDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employee, employeeDTO);
+        return employeeDTO;
     }
 
 
