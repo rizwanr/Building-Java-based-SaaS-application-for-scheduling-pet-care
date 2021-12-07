@@ -68,7 +68,11 @@ public class ScheduleController {
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        List<Schedule> schedulesByEmployeeId = scheduleService.findScheduleByEmplpyeeId(employeeId);
+        List<ScheduleDTO> scheduleDTOS = schedulesByEmployeeId.stream()
+                .map(ScheduleController::convertSchduleToScheduleDTO)
+                .collect(Collectors.toList());
+        return scheduleDTOS;
     }
 
     @GetMapping("/customer/{customerId}")

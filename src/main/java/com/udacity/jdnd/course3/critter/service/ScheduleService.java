@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entities.Schedule;
+import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class ScheduleService {
     @Autowired
     PetRepository petRepository;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
 
 
 
@@ -37,5 +40,9 @@ public class ScheduleService {
     public List<Schedule> findScheduleByPetId(long petId) {
        return scheduleRepository.getDetailsByPet(petRepository.getOne(petId));
 
+    }
+
+    public List<Schedule> findScheduleByEmplpyeeId(long employeeId) {
+        return scheduleRepository.getDetailsByEmployee(employeeRepository.getOne(employeeId));
     }
 }
