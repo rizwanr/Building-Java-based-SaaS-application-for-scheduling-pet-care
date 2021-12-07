@@ -1,12 +1,18 @@
 package com.udacity.jdnd.course3.critter.controller;
 
+import com.udacity.jdnd.course3.critter.entities.Employee;
+import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.entities.Schedule;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
+import com.udacity.jdnd.course3.critter.service.CustomerService;
+import com.udacity.jdnd.course3.critter.service.EmployeeService;
+import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,12 +25,18 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
 
+    @Autowired
+    CustomerService customerService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    PetService petService;
+
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-
-
-        Long scheduledId=  scheduleService.saveSchedule(convertSchduleDtoToSchedule(scheduleDTO));
-
+        Long scheduledId=  scheduleService.saveSchedule(convertScheduleDtoToSchedule(scheduleDTO));
         scheduleDTO.setId(scheduledId);
         return scheduleDTO;
 
@@ -51,11 +63,35 @@ public class ScheduleController {
         throw new UnsupportedOperationException();
     }
 
-    public  static Schedule convertSchduleDtoToSchedule(ScheduleDTO scheduleDTO){
+    public   Schedule convertScheduleDtoToSchedule(ScheduleDTO scheduleDTO) {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+        List<Long> petIds = scheduleDTO.getPetIds();
+        List<Employee> employeeList = new ArrayList<>();
+        List<Pet> petList = new ArrayList<>();
+
+        if(petIds!= null){
+            for (Long petId: petIds) {
+                petList.add(petService.findPetById(petId));
+
+            }
+        }
+
+        if(employeeIds!= null){
+            for (Long employeeId: employeeIds){
+                employeeList.add(employeeService.findEmployeeById(employeeId));
+            }
+        }
+
+        schedule.setPet(petList);
+        schedule.setEmployee(employeeList);
+        schedule.setActivities(scheduleDTO.getActivities());
         return schedule;
-    }
+}
+
+
+
 
     public  static ScheduleDTO convertSchduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();

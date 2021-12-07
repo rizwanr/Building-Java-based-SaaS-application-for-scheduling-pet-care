@@ -35,4 +35,14 @@ public class EmployeeService {
 
 
     }
+
+    public Employee findEmployeeById(long employeeId){
+        return employeeRepository.getOne(employeeId);
+    }
+
+//    public LocalDate findEmployeesAvailability(EmployeeRequestDTO employeeDTO) {
+//       Employee employee=  employeeDTO.getDate();
+//
+//
+//    }
 }

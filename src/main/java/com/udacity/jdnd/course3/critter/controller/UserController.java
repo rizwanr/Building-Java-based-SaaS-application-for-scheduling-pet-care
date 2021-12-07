@@ -65,6 +65,26 @@ public class UserController {
         //        return customerDto;
     }
 
+
+    @GetMapping("/employees")
+    public List<EmployeeDTO> getAllEmployees(){
+
+        List<Employee> listOfEmployees =employeeService.getListOfEmployees();
+        List<EmployeeDTO> employeeDto= new ArrayList<>();
+        for (Employee employee: listOfEmployees
+        ) {
+            employeeDto.add(convertEmpoyeeToEmployeeDTO(employee));
+        }
+        return employeeDto;
+
+
+//        List<Customer> customerList = customerService.getListOfCustomers();
+//        List<CustomerDTO> customerDTO = customerList.stream()
+//                .map(UserController::convertCustomerToCustomerDTO)
+//                .collect(Collectors.toList());
+        //        return customerDto;
+    }
+
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
         return convertCustomerToCustomerDTO(customerService.getCustomerByPetId(petId));
@@ -90,7 +110,9 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
+       //return  employeeService.findEmployeesWithSkillSet(employeeDTO);
         throw new UnsupportedOperationException();
+
     }
 
 
