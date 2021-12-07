@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Schedules.
@@ -45,12 +46,24 @@ public class ScheduleController {
 
     @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+
+        List<Schedule> allSchedules = scheduleService.getAllSchedules();
+        List<ScheduleDTO> scheduleDTOS = allSchedules.stream()
+                .map(ScheduleController::convertSchduleToScheduleDTO)
+                .collect(Collectors.toList());
+        return scheduleDTOS;
+
+
     }
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+
+        List<Schedule> schedulesByPetId = scheduleService.findScheduleByPetId(petId);
+        List<ScheduleDTO> scheduleDTOS = schedulesByPetId.stream()
+                .map(ScheduleController::convertSchduleToScheduleDTO)
+                .collect(Collectors.toList());
+        return scheduleDTOS;
     }
 
     @GetMapping("/employee/{employeeId}")
