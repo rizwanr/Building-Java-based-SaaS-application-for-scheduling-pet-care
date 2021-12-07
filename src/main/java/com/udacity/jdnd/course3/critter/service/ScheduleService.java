@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entities.Schedule;
+import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.repository.ScheduleRepository;
@@ -24,6 +25,9 @@ public class ScheduleService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    CustomerRepository customerRepository;
+
 
 
 
@@ -44,5 +48,10 @@ public class ScheduleService {
 
     public List<Schedule> findScheduleByEmplpyeeId(long employeeId) {
         return scheduleRepository.getDetailsByEmployee(employeeRepository.getOne(employeeId));
+    }
+
+    public List<Schedule> findScheduleByCustomerId(long customerId) {
+        return scheduleRepository.getDetailsByCustomer(customerRepository.getOne(customerId));
+
     }
 }
