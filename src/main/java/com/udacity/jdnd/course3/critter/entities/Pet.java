@@ -5,9 +5,11 @@ import com.udacity.jdnd.course3.critter.pet.PetType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="Pet")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Pet implements Serializable {
 
     @Id
@@ -23,6 +25,19 @@ public class Pet implements Serializable {
     private Customer customer;
     private LocalDate birthDate;
     private String notes;
+
+
+    @ManyToMany(mappedBy = "pet")
+    private List<Schedule> schedules;
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
 
     public Long getPetId() {
         return petId;

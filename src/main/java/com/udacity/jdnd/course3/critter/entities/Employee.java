@@ -6,10 +6,12 @@ import org.hibernate.annotations.Nationalized;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="Employee")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee implements Serializable  {
 
     @Id
@@ -26,6 +28,9 @@ public class Employee implements Serializable  {
     private Set<EmployeeSkill> skills;
     @ElementCollection
     private Set<DayOfWeek> daysAvailable;
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "employee")
+    private List<Schedule> schedules;
 
     public Employee(String name, Set<EmployeeSkill> skills, Set<DayOfWeek> daysAvailable) {
 

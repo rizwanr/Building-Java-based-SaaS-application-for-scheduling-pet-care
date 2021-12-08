@@ -16,12 +16,12 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
 
 
-    public Long saveEmployee(Employee employee){
+    public Long saveEmployee(Employee employee) {
         return employeeRepository.save(employee).getId();
     }
 
-    public List<Employee> getListOfEmployees(){
-        return  employeeRepository.findAll();
+    public List<Employee> getListOfEmployees() {
+        return employeeRepository.findAll();
 
     }
 
@@ -30,19 +30,26 @@ public class EmployeeService {
     }
 
     public void saveAvailablityOfEmployee(Set<DayOfWeek> daysAvailable, long employeeId) {
-        Employee employee= employeeRepository.getOne(employeeId);
+        Employee employee = employeeRepository.getOne(employeeId);
         employee.setDaysAvailable(daysAvailable);
 
 
     }
 
-    public Employee findEmployeeById(long employeeId){
+    public Employee findEmployeeById(long employeeId) {
         return employeeRepository.getOne(employeeId);
     }
-
-//    public LocalDate findEmployeesAvailability(EmployeeRequestDTO employeeDTO) {
-//       Employee employee=  employeeDTO.getDate();
 //
+//    public List<Employee> findEmployeeAvailability(EmployeeRequestDTO employeeDTO) {
+////        employeeRepository.findAvailableDays(e)
+////    }
+//
+////    public LocalDate findEmployeesAvailability(EmployeeRequestDTO employeeDTO) {
+////       Employee employee=  employeeDTO.getDate();
+////
+////
+////    }
+////}
 //
 //    }
 }

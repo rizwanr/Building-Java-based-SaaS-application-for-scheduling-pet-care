@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name="Customer")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Customer implements Serializable {
 
     @Id
@@ -33,6 +34,9 @@ public class Customer implements Serializable {
         this.phoneNumber = phoneNumber;
 
     }
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "customer")
+    private List<Schedule> schedules;
 
     public Customer(){
 

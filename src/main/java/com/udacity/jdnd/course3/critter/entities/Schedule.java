@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="Schedule")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Schedule  implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +19,37 @@ public class Schedule  implements Serializable  {
     private LocalDate date;
 
     //    a Schedule can have more than one Pet and Employee and both Pet and Employee can have more than one Schedule
-    @ManyToMany(targetEntity = Employee.class)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "schedule_employee",
+            joinColumns = {@JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = {@JoinColumn(name = "employee_id")}
+    )
     private List<Employee> employee;
-    @ManyToMany(targetEntity = Pet.class)
-    private List<Pet> Pet;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "schedule_customer",
+            joinColumns = {@JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = {@JoinColumn(name = "customer_id")}
+    )
+    private List<Customer> customer;
+
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
+    public void setPet(List<Pet> pet) {
+        this.pet = pet;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "schedule_pet",
+            joinColumns = {@JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pet_id")}
+    )
+    private List<Pet> pet;
     @ElementCollection
     private Set<EmployeeSkill> activities;
 
@@ -49,12 +77,12 @@ public class Schedule  implements Serializable  {
         this.employee = employee;
     }
 
-    public List<com.udacity.jdnd.course3.critter.entities.Pet> getPet() {
-        return Pet;
+    public List<Customer> getCustomer() {
+        return customer;
     }
 
-    public void setPet(List<com.udacity.jdnd.course3.critter.entities.Pet> pet) {
-        Pet = pet;
+    public List<Pet> getPet() {
+        return pet;
     }
 
     public Set<EmployeeSkill> getActivities() {
