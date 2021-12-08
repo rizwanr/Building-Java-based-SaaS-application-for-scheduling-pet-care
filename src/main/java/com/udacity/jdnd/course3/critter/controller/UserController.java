@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.entities.Employee;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
+import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeRequestDTO;
@@ -35,6 +36,9 @@ public class UserController {
 
     @Autowired
     public PetService petService;
+
+    @Autowired
+    public ScheduleService scheduleService;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
@@ -98,9 +102,10 @@ public class UserController {
         return employeeDTO;
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         return convertEmpoyeeToEmployeeDTO(employeeService.getEmployeeById(employeeId));
+
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -110,8 +115,8 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-       //return  employeeService.findEmployeesWithSkillSet(employeeDTO);
-//        List<Employee> employees = employeeService.findEmployeeAvailability(employeeDTO);
+
+
 
         throw new UnsupportedOperationException();
 

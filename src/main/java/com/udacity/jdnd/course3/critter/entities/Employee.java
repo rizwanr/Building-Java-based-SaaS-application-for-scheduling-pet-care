@@ -16,7 +16,7 @@ public class Employee implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long employeeId;
     @Nationalized
     @Column(name = "fullName", length = 50)
     private String name;
@@ -60,11 +60,11 @@ public class Employee implements Serializable  {
     }
 
     public Long getId() {
-        return id;
+        return employeeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {

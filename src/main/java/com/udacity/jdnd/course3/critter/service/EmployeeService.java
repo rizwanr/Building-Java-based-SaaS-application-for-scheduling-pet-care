@@ -32,6 +32,7 @@ public class EmployeeService {
     public void saveAvailablityOfEmployee(Set<DayOfWeek> daysAvailable, long employeeId) {
         Employee employee = employeeRepository.getOne(employeeId);
         employee.setDaysAvailable(daysAvailable);
+        employeeRepository.save(employee);
 
 
     }
@@ -39,17 +40,7 @@ public class EmployeeService {
     public Employee findEmployeeById(long employeeId) {
         return employeeRepository.getOne(employeeId);
     }
-//
-//    public List<Employee> findEmployeeAvailability(EmployeeRequestDTO employeeDTO) {
-////        employeeRepository.findAvailableDays(e)
-////    }
-//
-////    public LocalDate findEmployeesAvailability(EmployeeRequestDTO employeeDTO) {
-////       Employee employee=  employeeDTO.getDate();
-////
-////
-////    }
-////}
-//
-//    }
+
+
+
 }
