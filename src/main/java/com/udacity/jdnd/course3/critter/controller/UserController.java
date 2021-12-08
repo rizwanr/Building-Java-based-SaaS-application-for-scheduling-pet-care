@@ -9,6 +9,7 @@ import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeRequestDTO;
+import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Users.
@@ -116,10 +118,15 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
 
+        DayOfWeek dayOfWeekStaffAvailable= employeeDTO.getDate().getDayOfWeek();
+        Set<EmployeeSkill> employeeSkills= employeeDTO.getSkills();
 
+        List<Employee> employees =employeeService.findEmployeesByAvailablityAndSkill(dayOfWeekStaffAvailable, employeeSkills);
 
-        throw new UnsupportedOperationException();
-
+        List<EmployeeDTO> petDTOS = employees.stream()
+                .map(UserController::convertEmpoyeeToEmployeeDTO)
+                .collect(Collectors.toList());
+        return petDTOS;
 
     }
 

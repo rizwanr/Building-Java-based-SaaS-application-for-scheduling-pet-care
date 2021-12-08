@@ -35,6 +35,7 @@ public class PetController {
 
     }
 
+
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
        return convertPetToPetDTO(petService.findPetById(petId));
