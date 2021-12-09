@@ -58,9 +58,8 @@ public class ScheduleController {
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-
-        List<Schedule> schedulesByPetId = scheduleService.findScheduleByPetId(petId);
-        List<ScheduleDTO> scheduleDTOS = schedulesByPetId.stream()
+        List<Schedule> schedulesByPet = scheduleService.findScheduleByPetId(petId);
+        List<ScheduleDTO> scheduleDTOS = schedulesByPet.stream()
                 .map(ScheduleController::convertSchduleToScheduleDTO)
                 .collect(Collectors.toList());
         return scheduleDTOS;
@@ -68,8 +67,8 @@ public class ScheduleController {
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-        List<Schedule> schedulesByEmployeeId = scheduleService.findScheduleByEmplpyeeId(employeeId);
-        List<ScheduleDTO> scheduleDTOS = schedulesByEmployeeId.stream()
+        List<Schedule> schedulesByEmployee = scheduleService.findScheduleByEmplpyeeId(employeeId);
+        List<ScheduleDTO> scheduleDTOS  = schedulesByEmployee.stream()
                 .map(ScheduleController::convertSchduleToScheduleDTO)
                 .collect(Collectors.toList());
         return scheduleDTOS;
@@ -77,8 +76,8 @@ public class ScheduleController {
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        List<Schedule> schedulesByCustomerId = scheduleService.findScheduleByCustomerId(customerId);
-        List<ScheduleDTO> scheduleDTOS = schedulesByCustomerId.stream()
+        List<Schedule> schedulesByCustomer = scheduleService.findScheduleByCustomerId(customerId);
+        List<ScheduleDTO> scheduleDTOS = schedulesByCustomer.stream()
                 .map(ScheduleController::convertSchduleToScheduleDTO)
                 .collect(Collectors.toList());
         return scheduleDTOS;
@@ -114,9 +113,22 @@ public class ScheduleController {
 
 
 
-    public  static ScheduleDTO convertSchduleToScheduleDTO(Schedule schedule){
+    public static ScheduleDTO convertSchduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
+        List<Long> petIds = new ArrayList<>();
+        List<Pet> pets = schedule.getPet();
+        for (Pet pet:pets) {
+            petIds.add(pet.getPetId());
+        }
+        List<Long> employeeIds = new ArrayList<>();
+        List<Employee> employees = schedule.getEmployee();
+        for(Employee employee : employees){
+            employeeIds.add(employee.getId());
+        }
+        scheduleDTO.setPetIds(petIds);
+        scheduleDTO.setEmployeeIds(employeeIds);
         return scheduleDTO;
+
     }
 }

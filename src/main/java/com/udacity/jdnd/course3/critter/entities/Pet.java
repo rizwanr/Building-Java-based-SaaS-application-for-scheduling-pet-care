@@ -18,15 +18,11 @@ public class Pet implements Serializable {
     @Column(length = 50)
     private String name;
     private PetType type;
-
-
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Customer.class) //many pets can belong to 1 customer
     @JoinColumn(name="customer_id")
     private Customer customer;
     private LocalDate birthDate;
     private String notes;
-
-
     @ManyToMany(mappedBy = "pet")
     private List<Schedule> schedules;
 

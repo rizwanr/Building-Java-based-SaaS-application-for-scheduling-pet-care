@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.service;
 
+import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.entities.Schedule;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
@@ -42,7 +43,10 @@ public class ScheduleService {
 
 
     public List<Schedule> findScheduleByPetId(long petId) {
-       return scheduleRepository.getDetailsByPet(petRepository.getOne(petId));
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow( ResourceNotFoundException::new);
+      return scheduleRepository.getDetailsByPet(pet);
+
 
     }
 

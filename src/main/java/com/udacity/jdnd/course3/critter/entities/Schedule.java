@@ -14,7 +14,7 @@ import java.util.Set;
 public class Schedule  implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long scheduleId;
 
     private LocalDate date;
 
@@ -35,13 +35,6 @@ public class Schedule  implements Serializable  {
     )
     private List<Customer> customer;
 
-    public void setCustomer(List<Customer> customer) {
-        this.customer = customer;
-    }
-
-    public void setPet(List<Pet> pet) {
-        this.pet = pet;
-    }
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
@@ -50,15 +43,16 @@ public class Schedule  implements Serializable  {
             inverseJoinColumns = {@JoinColumn(name = "pet_id")}
     )
     private List<Pet> pet;
+
     @ElementCollection
     private Set<EmployeeSkill> activities;
 
     public Long getId() {
-        return id;
+        return scheduleId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public LocalDate getDate() {
@@ -91,6 +85,14 @@ public class Schedule  implements Serializable  {
 
     public void setActivities(Set<EmployeeSkill> activities) {
         this.activities = activities;
+    }
+
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
+    public void setPet(List<Pet> pet) {
+        this.pet = pet;
     }
 
 
