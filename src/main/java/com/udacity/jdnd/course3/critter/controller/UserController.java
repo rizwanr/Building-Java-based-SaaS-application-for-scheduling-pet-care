@@ -1,14 +1,14 @@
 package com.udacity.jdnd.course3.critter.controller;
 
+import com.udacity.jdnd.course3.critter.DTOs.CustomerDTO;
+import com.udacity.jdnd.course3.critter.DTOs.EmployeeDTO;
+import com.udacity.jdnd.course3.critter.DTOs.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Employee;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
-import com.udacity.jdnd.course3.critter.DTOs.CustomerDTO;
-import com.udacity.jdnd.course3.critter.DTOs.EmployeeDTO;
-import com.udacity.jdnd.course3.critter.DTOs.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +136,7 @@ public class UserController {
     private static CustomerDTO convertCustomerToCustomerDTO(Customer customer){
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
+        customerDTO.setId(customer.getCustomerId());
         List<Long> petIds = new ArrayList<>();
         try {
             customer.getPet().forEach(pet -> {

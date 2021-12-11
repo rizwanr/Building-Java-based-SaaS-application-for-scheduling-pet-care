@@ -227,6 +227,7 @@ public class CritterFunctionalTest {
 
         //Pet from schedule 2 is in both schedules 2 and 3
         List<ScheduleDTO> scheds2p = scheduleController.getScheduleForPet(sched2.getPetIds().get(0));
+      //need to check on this
         compareSchedules(sched2, scheds2p.get(0));
         compareSchedules(sched3, scheds2p.get(1));
 
@@ -249,7 +250,7 @@ public class CritterFunctionalTest {
     }
     private static CustomerDTO createCustomerDTO() {
         CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName("TestEmployee");
+        customerDTO.setName("TestCustomer");
         customerDTO.setPhoneNumber("123456789");
         return customerDTO;
     }
