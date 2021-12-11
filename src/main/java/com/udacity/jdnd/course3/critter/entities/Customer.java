@@ -20,7 +20,6 @@ public class Customer implements Serializable {
     private String name;
 
 
-    @Pattern(regexp="(^$|[0-9]{10})")
     private String phoneNumber;
 
     //make sure to specify mappedBy. Lazy fetch optional,
