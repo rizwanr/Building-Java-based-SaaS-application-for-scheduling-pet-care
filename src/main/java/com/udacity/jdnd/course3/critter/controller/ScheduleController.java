@@ -120,6 +120,7 @@ public class ScheduleController {
     public static ScheduleDTO convertSchduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
+        scheduleDTO.setId(schedule.getScheduleId());
 
         List<Long> petIds = new ArrayList<>();
         List<Pet> pets = schedule.getPet();
