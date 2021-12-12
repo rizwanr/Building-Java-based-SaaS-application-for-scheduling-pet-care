@@ -31,7 +31,7 @@ public class ScheduleService {
 
 
     public Long saveSchedule(Schedule schedule){
-        return scheduleRepository.save(schedule).getId();
+        return scheduleRepository.save(schedule).getScheduleId();
 
     };
 

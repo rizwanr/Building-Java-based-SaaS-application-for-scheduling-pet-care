@@ -15,7 +15,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> getDetailsByEmployee(Employee employee);
 
-    List<Schedule> getDetailsByCustomer(Customer one);
+    List<Schedule> getDetailsByCustomer(Customer customer);
 
 
 }

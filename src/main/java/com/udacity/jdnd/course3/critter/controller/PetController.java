@@ -3,8 +3,10 @@ package com.udacity.jdnd.course3.critter.controller;
 import com.udacity.jdnd.course3.critter.DTOs.PetDTO;
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Pet;
+import com.udacity.jdnd.course3.critter.entities.Schedule;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.PetService;
+import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ public class PetController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    ScheduleService scheduleService;
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
@@ -72,15 +77,17 @@ public class PetController {
     }
 
     private  Pet convertPetDtoToPet(PetDTO petDTO){
+        Schedule schedule = new Schedule();
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
         pet.setPetId(petDTO.getId());
         Long customerId = petDTO.getOwnerId();
 
-
-        Customer customer = customerService.getCustomerById(customerId);
+        Customer customer = customerService.findCustomerById(customerId);
+        List<Schedule> schedules = scheduleService.findScheduleByCustomerId(customerId);
         pet.setCustomer(customer);
         pet.setName(petDTO.getName());
+
         return pet;
 
     }

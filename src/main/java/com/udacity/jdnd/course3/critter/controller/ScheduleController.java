@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.controller;
 
 import com.udacity.jdnd.course3.critter.DTOs.ScheduleDTO;
+import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Employee;
 import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.entities.Schedule;
@@ -86,15 +87,17 @@ public class ScheduleController {
     public   Schedule convertScheduleDtoToSchedule(ScheduleDTO scheduleDTO) {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);
+        schedule.setScheduleId(scheduleDTO.getId());
         List<Long> employeeIds = scheduleDTO.getEmployeeIds();
         List<Long> petIds = scheduleDTO.getPetIds();
         List<Employee> employeeList = new ArrayList<>();
         List<Pet> petList = new ArrayList<>();
+        List<Customer> customerList = new ArrayList<>();
 
         if(petIds!= null){
             for (Long petId: petIds) {
                 petList.add(petService.findPetById(petId));
-
+                customerList.add(customerService.getCustomerByPetId(petId));
             }
         }
 
@@ -107,6 +110,7 @@ public class ScheduleController {
         schedule.setPet(petList);
         schedule.setEmployee(employeeList);
         schedule.setActivities(scheduleDTO.getActivities());
+        schedule.setCustomer(customerList);
         return schedule;
 }
 
@@ -116,16 +120,19 @@ public class ScheduleController {
     public static ScheduleDTO convertSchduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
+
         List<Long> petIds = new ArrayList<>();
         List<Pet> pets = schedule.getPet();
         for (Pet pet:pets) {
             petIds.add(pet.getPetId());
         }
+
         List<Long> employeeIds = new ArrayList<>();
         List<Employee> employees = schedule.getEmployee();
         for(Employee employee : employees){
             employeeIds.add(employee.getId());
         }
+
         scheduleDTO.setPetIds(petIds);
         scheduleDTO.setEmployeeIds(employeeIds);
         return scheduleDTO;

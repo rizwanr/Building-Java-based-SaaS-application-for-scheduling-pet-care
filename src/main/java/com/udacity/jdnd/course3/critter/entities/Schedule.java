@@ -47,11 +47,11 @@ public class Schedule  implements Serializable  {
     @ElementCollection
     private Set<EmployeeSkill> activities;
 
-    public Long getId() {
+    public Long getScheduleId() {
         return scheduleId;
     }
 
-    public void setId(Long scheduleId) {
+    public void setScheduleId(Long scheduleId) {
         this.scheduleId = scheduleId;
     }
 
